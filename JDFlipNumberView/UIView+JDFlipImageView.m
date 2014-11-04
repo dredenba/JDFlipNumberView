@@ -126,15 +126,20 @@
     CGSize size = self.bounds.size;
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     
-    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
-        if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-            [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
-        } else {
-            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-        }
-    #else
-        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    #endif
+//    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // only when SDK is >= ios7
+//        if ([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+//            [self drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:afterScreenUpdates];
+//        } else {
+//            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+//        }
+//    #else
+//        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    #endif
+    
+// Blip on ios8 with iphone 6 and iphone 6 plus with "drawViewHierarchyInRect..." (when no launch images for those devices)
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+//
+    
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
